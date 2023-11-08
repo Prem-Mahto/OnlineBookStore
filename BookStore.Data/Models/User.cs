@@ -10,5 +10,6 @@
         public string PasswordHash { get; set; }
 
         public ICollection<Order> Orders { get; set; }
+        public ICollection<CartItem> CartItems { get; set; }
     }
 }

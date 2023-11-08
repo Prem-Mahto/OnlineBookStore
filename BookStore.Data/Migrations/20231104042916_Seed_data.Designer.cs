@@ -4,6 +4,7 @@ using BookStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStore.Data.Migrations
 {
     [DbContext(typeof(BookStoreDbContext))]
-    partial class BookStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231104042916_Seed_data")]
+    partial class Seed_data
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,29 +176,6 @@ namespace BookStore.Data.Migrations
                             Quantity = 8,
                             Title = "Pshycologs Magazine"
                         });
-                });
-
-            modelBuilder.Entity("BookStore.Data.Models.CartItem", b =>
-                {
-                    b.Property<int>("CartItemId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartItemId"));
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CartItemId");
-
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("BookStore.Data.Models.Genre", b =>
@@ -377,25 +357,6 @@ namespace BookStore.Data.Migrations
                     b.Navigation("Genre");
                 });
 
-            modelBuilder.Entity("BookStore.Data.Models.CartItem", b =>
-                {
-                    b.HasOne("BookStore.Data.Models.Book", "Book")
-                        .WithMany("CartItems")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookStore.Data.Models.User", "User")
-                        .WithMany("CartItems")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("BookStore.Data.Models.Order", b =>
                 {
                     b.HasOne("BookStore.Data.Models.User", "User")
@@ -439,8 +400,6 @@ namespace BookStore.Data.Migrations
 
             modelBuilder.Entity("BookStore.Data.Models.Book", b =>
                 {
-                    b.Navigation("CartItems");
-
                     b.Navigation("Items");
                 });
 
@@ -458,8 +417,6 @@ namespace BookStore.Data.Migrations
 
             modelBuilder.Entity("BookStore.Data.Models.User", b =>
                 {
-                    b.Navigation("CartItems");
-
                     b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618

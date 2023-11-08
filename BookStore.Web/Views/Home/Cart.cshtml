@@ -1,0 +1,46 @@
+﻿@using BookStore.Data.Models;
+@model List<CartItem>;
+
+@if (Model.Any())
+{
+    decimal totalPrice = 0;
+    <table class="w3-table w3-striped w3-border" style="background-color:#fff;color:#000">
+        <tbody>
+            <tr>
+            </tr>
+        </tbody>
+        <thead>
+            <tr class="w3-red">
+                <th>BookTitle</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var caritem in Model)
+            {
+                var qty = 1;
+                <tr>
+                    <td>@caritem.Book.Title</td>
+                    <td>@qty</td>
+                    <td>@caritem.Book.Price</td>
+                </tr>
+                totalPrice = @qty * caritem.Book.Price;
+            }          
+        </tbody>
+        <tfoot>
+            <tr class="w3-red">
+                <th colspan="2">TotalPrice</th>
+                <th>$@totalPrice.ToString("0.00")</th>
+            </tr>
+            <tr>
+                <th colspan="2"></th>
+                <th>
+                    <button type="button" class="w3-button w3-round w3-green" onclick="checkout()">Checkout</button>
+
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+
+}

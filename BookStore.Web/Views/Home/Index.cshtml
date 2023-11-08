@@ -1,8 +1,54 @@
-﻿@{
+﻿@using BookStore.Data.Models;
+@model List<Book>;
+@{
     ViewData["Title"] = "Home Page";
 }
+<style>
+    img {
+        height:500px;
+        width:270px;
+    }
+</style>
+@if (Model.Any())
+{
+    <div class="w3-row-padding w3-padding-16 w3-center" >
+    @foreach(var book in Model)
+    {
+            <div class="w3-quarter">
+                <img src="@book.CoverImage" />
+                <h3>@book.Title</h3>
+                <p>@book.Description</p>
+                <p><i class="fa fa-dollar">$</i> @book.Price</p>
+                <button type="button" class="w3-button w3-theme" onclick="addToCart(2,@book.BookID)">Add to Cart</button>
+            </div>           
+    }
+    </div>
+}
+@section Scripts{
+<script>
+    
+        // Attach a click event handler to the button with the id "sendData"
+        function addToCart(userId, bookId) {
+            // Define the data to be sent as an object
+            var dataToSend = {
+                userId: userId,     // Replace with your userId
+                bookId: bookId    // Replace with your orderId
+            };
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+            // Define the URL where you want to send the data
+            var url = "/home/addToCart";  // Replace with your actual URL
+
+            // Send a POST request
+            $.post(url, dataToSend, function (data, status) {
+                // This function is called when the request is successful
+                console.log("Data sent successfully!");
+                console.log("Response data: " + data);
+                console.log("Status: " + status);
+            })
+                .fail(function (xhr, status, error) {
+                    // This function is called when the request fails
+                    console.error("Error: " + error);
+                });
+        }
+</script>
+}

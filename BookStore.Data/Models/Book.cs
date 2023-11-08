@@ -19,5 +19,6 @@ namespace BookStore.Data.Models
 
         public Genre Genre { get; set; }
         public ICollection<OrderItem> Items { get; set; }
+        public ICollection<CartItem> CartItems { get; set; }
     }
 }
